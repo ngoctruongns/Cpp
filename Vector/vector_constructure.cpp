@@ -17,7 +17,11 @@ int main()
 
     std::cout << "The contents of fifth are:" << '\n';
     for (std::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
-        std::cout << ' ' << *it;
+        {
+            std::cout << ' ' << *it;
+            std::cout << " dia chi &it: " << &it ;
+            std::cout << " &*it: " << &(*it) << std::endl;
+        }
 
     std::cout << '\n';
     for (size_t i = 0; i < 4; i++)
@@ -29,9 +33,12 @@ int main()
     std::vector<int> *field_data;
     field_data = &fifth;
     std::vector<int> temp(3,6);
-
+    /* Chỉ mục */
     temp[0] = 1;
     temp[1] = 2;
+
+    /* At */
+    std::cout << "At" <<  temp.at(2) << std::endl;
 
     *field_data = temp;
 

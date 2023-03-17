@@ -1,16 +1,6 @@
 #include <iostream>
-// #include "MyClass.h"
+#include "my_class.h"
 
-class MyClass
-{
-public:
-    MyClass();
-    ~MyClass();
-    int age = 20;
-    void printMessage();
-protected:
-    int age1 = 5;
-};
 
 MyClass::MyClass() {}
 
