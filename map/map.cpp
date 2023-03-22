@@ -28,7 +28,9 @@ std::cout << "Size of map: " << map.size() << std::endl;
 // print key
 std::cout << map["one"] << std::endl;
 map.erase("two");
-map.insert({"nice", 9});
+map.insert({"three", 9});
+map["nice"] = 18;
+map["three"] = 20;
 
 it = map.begin();
 while (it != map.end())
