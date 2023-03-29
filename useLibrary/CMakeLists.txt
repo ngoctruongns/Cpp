@@ -1,11 +1,13 @@
-cmake_minimum_required(VERSION 3.10)
-project(MyProject)
+cmake_minimum_required(VERSION 3.5)
 
-# Add the include directory
+# Tên dự án
+project(my_project)
+
+# Thêm thư mục chứa file header
 include_directories(include)
 
-# Add all the source files in the src directory
-file(GLOB SOURCES "src/*.cpp")
+# Thêm file thực thi và tên file thực thi
+add_executable(my_executable src/main.cpp)
 
-# Create the executable
-add_executable(MyProject ${SOURCES})
+# Liên kết file thực thi với thư viện my_class
+target_link_libraries(my_executable my_class)

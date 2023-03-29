@@ -7,6 +7,9 @@ public:
     MyClass();
     ~MyClass();
     void printMessage();
+
+protected:
+    int age1 = 5;
 };
 
 #endif
