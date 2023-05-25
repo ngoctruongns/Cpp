@@ -14,7 +14,7 @@ int main() {
     struct student s;
 
     printf("Enter student name: ");
-    scanf("%s", );
+    scanf("%s", s.ptrName);
 
     printf("Enter student age: ");
     scanf("%d", &s.age);
@@ -22,7 +22,7 @@ int main() {
     printf("Enter student GPA: ");
     scanf("%f", &s.gpa);
 
-    printf("Student's name: %s\n", s.name);
+    printf("Student's name: %s\n", s.ptrName);
     printf("Student's age: %d\n", s.age);
     printf("Student's GPA: %.2f\n", s.gpa);
 
