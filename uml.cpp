@@ -76,3 +76,34 @@ activate AMP_OFF
 
 @endmindmap
 */
+
+/*
+@startmindmap
+* async_helper
+** async_item_t
+*** task
+**** TaskData
+*** id
+**** MessageId
+*** payload
+**** Message
+*** done
+**** bool
+** *async_items_t
+*** llist_t
+** task_pair_t
+*** self
+**** TaskData
+*** caller
+**** Task
+** async_item_private_t
+*** task
+**** Task
+*** handles
+**** llist_t
+*** count_total
+**** uint8
+*** count_done
+**** uint8
+@endmindmap
+*/
