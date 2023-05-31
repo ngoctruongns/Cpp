@@ -107,3 +107,22 @@ activate AMP_OFF
 **** uint8
 @endmindmap
 */
+
+/*
+@startmindmap
+* timer
+** mTimer
+*** id
+**** MessageId
+*** interval_
+**** uint32
+*** loop_
+**** int32
+*** timerAbstractHandler_
+**** TaskData
+*** handler_
+**** handlerTimer
+***** (*handlerTimer)(void)
+
+@endmindmap
+*/
