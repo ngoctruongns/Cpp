@@ -126,3 +126,37 @@ activate AMP_OFF
 
 @endmindmap
 */
+
+/*
+@startmindmap
+* Connection
+** CON_MANAGER_CONNECTION_IND_T
+*** bd_addr
+**** bdaddr
+***** lap
+****** uint32
+***** uap
+****** uint8
+***** nap
+****** uint16
+*** connected
+**** bool
+*** ble
+**** bool
+
+** CON_MANAGER_TP_CONNECT_IND_T
+*** tpaddr
+**** tp_bdaddr
+***** taddr
+****** typed_bdaddr
+******* type
+******** uint8
+******* addr
+******** bdaddr
+***** transport
+****** TRANSPORT_T (enum)
+*** incoming
+**** uint32
+
+@endmindmap
+*/
