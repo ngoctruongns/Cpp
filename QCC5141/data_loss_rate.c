@@ -19,15 +19,15 @@ int main()
 
     uint64_t dataPayload = 0;
     printf("size of uint64_t is %zu bytes \n", sizeof(uint64_t));
-    uint8 data_loss_get_rate[4] = {04, 12, 00, 127}; // 2D 4C 48 80
+    uint8 data_loss_get_rate[4] = {45, 76, 72, 128}; // 2D 4C 48 80
     for (uint8 i = 0; i < 4; i++) 
     {
-        dataPayload |= data_loss_get_rate[i] << 8*i;
-        printf("Data loss %d: %llx \n", i, dataPayload);
+        dataPayload |= (uint64_t)data_loss_get_rate[i] << 8*i;
+        printf("Data loss %d: %llX \n", i, dataPayload);
     }
-    printf("Data loss 1: %llx \n", dataPayload);
+    printf("Data loss 1: %llX \n", dataPayload);
     dataPayload *= 1000;
-    printf("Data loss 2: %llu \n", dataPayload);
-    printf("Data loss rate: %llx \n", (uint32)(dataPayload / 1000));
+    printf("Data loss 2: %llX \n", dataPayload);
+    printf("Data loss rate: %08X \n", (uint32)(dataPayload / 1000));
     return 0;
 }
