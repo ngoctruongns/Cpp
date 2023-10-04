@@ -8,11 +8,12 @@ void swap(int x, int y) {
 }
 
 /* Tham chiếu (reference) truyền địa chỉ của biến vào hàm */
-// void swap(int &x, int &y) {
-//     int temp = x;
-//     x = y;
-//     y = temp;
-// }
+void swap1(int &x, int &y) {
+    int temp = x;
+    x = y;
+    y = temp;
+}
+
 
 /* Tham chiếu dạng const để không cho thay đổi giá trị của biến */
 // void swap(const int &x, int &y) {
@@ -21,9 +22,20 @@ void swap(int x, int y) {
 //     y = temp;
 // }
 
+/* Tham chiếu truyền dưới dạng con trỏ */
+void swap2(int* x, int* y) {
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
 int main() {
     int a = 5, b = 10;
     swap(a, b);
+    cout << a << " " << b << endl;
+    swap1(a, b);
+    cout << a << " " << b << endl;
+    swap2(&a, &b);
     cout << a << " " << b << endl;
     return 0;
 }
