@@ -3,7 +3,7 @@
 
 int main()
 {
-    const char * sample_str = "This is sample string";
+    const char * sample_str = "This  is sample string";
     char src[50], dest[50];
     printf("sample string: %s", sample_str);
 
@@ -45,27 +45,43 @@ int main()
     int index_stop = 0;
     for (int i = str_len-1; i >= 0 ; i--)
     {
-        if (*(sample_str+i)== ' ')
+        if ((*(sample_str+i)== ' ') && (i != 0))
         {
             printf("\nFind space at: %d", i);
-            index_stop = i;
-            // Copy sub string to revert string
-            memcpy(revert_str2 + revert_index, sample_str + i + 1, index_start - index_stop);
-            revert_index += (index_start - index_stop);
+            if ( i == index_start)
+            {
+                printf("\t--> Space duplicate!!!");
+            }
+            else
+            {
+                index_stop = i;
+                // Copy sub string to revert string
+                memcpy(revert_str2 + revert_index, sample_str + i + 1, index_start - index_stop);
+                revert_index += (index_start - index_stop);
+                revert_str2[revert_index] = ' ';
+                revert_index++;
+
+            }
             index_start = i-1;
-            revert_str2[revert_index] = ' ';
-            revert_index++;
 
         }
         // If check to first of string
         if (i==0)
         {
-            memcpy(revert_str2 + revert_index, sample_str, index_start + 1);
-            printf("Find string done!");
+            if (*sample_str == ' ')
+            {
+                memcpy(revert_str2 + revert_index, sample_str + 1, index_start);
+
+            }
+            else
+            {
+                memcpy(revert_str2 + revert_index, sample_str, index_start + 1);
+            }
+            printf("\nFind string done!");
  
         }
     }
-    printf("\nRevert2 string: %s", revert_str2);
+    printf("\nRevert2 string:__%s___", revert_str2);
     
     return 0;
 }
