@@ -11,8 +11,6 @@ int main()
         std::cout << "sum= "<< sum << "\n";
     }
 
-    int arr[3];
-    arr[0] = 1;
 
     return 0;
 }
