@@ -6,6 +6,9 @@ struct Node
 {
     int data;
     Node *next;
+    Node() : data(0), next(nullptr) {};
+    Node(int x) : data(x), next(nullptr) {};
+    Node(int x, Node * ptr) : data(x), next(ptr) {};
 };
 
 // Hàm in các phần tử trong danh sách liên kết
@@ -13,9 +16,11 @@ void printList(Node *node)
 {
     while (node != NULL)
     {
-        cout << node->data << " ";
+        cout << node->data << "->";
         node = node->next;
     }
+    cout << "NULL" << endl;
+
 }
 
 // Hàm in sử dụng for
@@ -23,8 +28,9 @@ void printList1(Node *node)
 {
     for (Node* ptr = node; ptr != nullptr; ptr = ptr->next)
     {
-        cout << ptr->data << " : ";
+        cout << ptr->data << "->";
     }
+    cout << "NULL" << endl;
 }
 
 // Tìm phần tử giữa chuỗi
