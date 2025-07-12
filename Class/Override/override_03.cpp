@@ -19,7 +19,8 @@ public:
     // đặc biệt khi làm việc với các lớp trừu tượng hoặc khi có nhiều lớp
     // kế thừa từ một lớp cha.
 
-    ~Animal() // Destructor
+    // ~Animal() // Destructor
+    virtual ~Animal() // Destructor
     {
         cout << "Animal destroyed.\n";
     }
@@ -39,40 +40,16 @@ public:
     }
 };
 
-class Cat : public Animal
-{
-public:
-    // từ khóa override để giúp chương trình sáng sửa và trình biên dịch báo lỗi nếu lớp cha không có hàm virtual,
-    // bỏ nó đi chương trình vẫn hoạt động.
-    void makeSound() override
-    {
-        cout << "The cat meows.\n";
-    }
-};
-
 int main()
 {
     Animal *animalPtr;
-    Animal animal;
-    Dog dog;
-    Cat cat;
+    animalPtr = new Dog(); // Using a pointer to the base class
+    animalPtr->makeSound(); // Outputs: The dog barks.
+    delete animalPtr; // Clean up
 
-    animalPtr = &animal;
-    animalPtr->makeSound();
-
-    animalPtr = &dog;
-    animalPtr->makeSound();
-
-    animalPtr = &cat;
-    animalPtr->makeSound();
-
-    Dog *dogPtr;
-    dogPtr = &dog;
-    dogPtr->makeSound();
-
-    //! Con trỏ của lớp con không thể trỏ tới lớp cha được
-    // dogPtr = &animal;
-    // dogPtr->makeSound();
+    // Dog dog;
+    // animalPtr = &dog;
+    // animalPtr->makeSound();
 
     return 0;
 }
