@@ -48,6 +48,11 @@ public:
     {
         cout << "The cat meows.\n";
     }
+
+    void sleep()
+    {
+        cout << "The cat sleeps.\n";
+    }
 };
 
 int main()
@@ -65,6 +70,7 @@ int main()
 
     animalPtr = &cat;
     animalPtr->makeSound();
+    // animalPtr->sleep(); // Lỗi: lớp cha không có hàm sleep()
 
     Dog *dogPtr;
     dogPtr = &dog;

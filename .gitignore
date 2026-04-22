@@ -15,5 +15,6 @@ CMakeFiles
 *.cmake
 *.make
 *.o
+*.so
 *.bin
 CMakeCache.txt

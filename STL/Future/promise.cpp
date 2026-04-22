@@ -21,7 +21,7 @@ int main() {
     int x;
     std::promise<int> p;
     std::future<int> f = p.get_future();
-    std::future<int> fut = std::async(std::launch::async, factorial, std::ref(f));
+    std::future<int> fut = std::async(std::launch::async, factorial, std::ref(f)); // function factorial with prameter as f;
     std::cout << "Main thread start sleep ... " << std::endl;
 
     std::this_thread::sleep_for(std::chrono::seconds(2)); // Simulate some delay
