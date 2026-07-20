@@ -111,6 +111,44 @@ void benchmark_copy_vs_move() {
     std::cout << "Move is ~" << (copy_us / std::max(move_us, (long)1)) << "x faster\n";
 }
 
+// Ex3: class for SensorData
+class SensorData {
+public:
+    std::vector<double> readings;
+
+    // Default constructor
+    SensorData() = default;
+
+    // Copy constructor
+    SensorData(const SensorData& other) : readings(other.readings) {
+        std::cout << "[SensorData] COPY constructor, size=" << readings.size() << "\n";
+    }
+
+    // Move constructor
+    SensorData(SensorData&& other) noexcept : readings(std::move(other.readings)) {
+        std::cout << "[SensorData] MOVE constructor, size=" << readings.size() << "\n";
+    }
+
+    // Copy assignment
+    SensorData& operator=(const SensorData& other) {
+        if (this != &other) readings = other.readings;
+        std::cout << "[SensorData] COPY assignment\n";
+        return *this;
+    }
+
+    // Move assignment
+    SensorData& operator=(SensorData&& other) noexcept {
+        if (this != &other) readings = std::move(other.readings);
+        std::cout << "[SensorData] MOVE assignment\n";
+        return *this;
+    }
+
+    // Destructor
+    ~SensorData() {
+        std::cout << "[SensorData] Destroyed, size=" << readings.size() << "\n";
+    }
+};
+
 int main() {
     std::cout << "=== Lvalue vs Rvalue ===\n";
     lvalue_vs_rvalue();
@@ -127,6 +165,18 @@ int main() {
 
     std::cout << "\n=== make_buffer (RVO/move) ===\n";
     HeavyBuffer result = make_buffer(50);
+
+    // Test SensorData
+    std::cout << "\n=== SensorData Test ===\n";
+    SensorData s1;
+    s1.readings = {1.0, 2.0, 3.0};
+    {
+        SensorData s2 = s1;             // copy
+        SensorData s3 = std::move(s1); // move
+        SensorData s4;
+        s4 = s2;                        // copy assignment
+        s4 = std::move(s3);             // move assignment
+    }
 
     return 0;
 }

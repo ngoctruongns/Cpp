@@ -23,11 +23,10 @@ public:
     size_t size_;
 
     // 1. Constructor
-    explicit RawBuffer(size_t size, char fill = 0)
-        : data_(new char[size]), size_(size)
-    {
+    RawBuffer(size_t size, char fill = 0) : size_(size) {
+        data_ = new char[size_];
         std::memset(data_, fill, size_);
-        std::cout << "[RawBuffer] Constructed size=" << size_ << "\n";
+        std::cout << "Constructor size: " << size << "\n";
     }
 
     // 2. Destructor — giải phóng tài nguyên
@@ -38,25 +37,22 @@ public:
     }
 
     // 3. Copy constructor — deep copy
-    RawBuffer(const RawBuffer& other)
-        : data_(new char[other.size_]), size_(other.size_)
-    {
+    RawBuffer(const RawBuffer& other) {
+        data_ = new char[other.size_];
+        size_ = other.size_;
         std::memcpy(data_, other.data_, size_);
         std::cout << "[RawBuffer] COPY constructed size=" << size_ << "\n";
     }
 
     // 4. Copy assignment — deep copy + self-assignment guard
     RawBuffer& operator=(const RawBuffer& other) {
-        if (this == &other) return *this;  // self-assignment guard
-
-        // Giải phóng tài nguyên cũ
+        if (this == &other) return *this;
+        // Free old data and copy new data
         delete[] data_;
-
-        // Copy tài nguyên mới
+        data_ = new char[other.size_];
         size_ = other.size_;
-        data_ = new char[size_];
         std::memcpy(data_, other.data_, size_);
-        std::cout << "[RawBuffer] COPY assigned size=" << size_ << "\n";
+        std::cout << "Copy assignment, size " << size_ << "\n";
         return *this;
     }
 
@@ -64,7 +60,6 @@ public:
     RawBuffer(RawBuffer&& other) noexcept
         : data_(other.data_), size_(other.size_)
     {
-        // Để other ở trạng thái valid nhưng rỗng → destructor safe
         other.data_ = nullptr;
         other.size_ = 0;
         std::cout << "[RawBuffer] MOVE constructed size=" << size_ << "\n";
@@ -73,31 +68,37 @@ public:
     // 6. Move assignment
     RawBuffer& operator=(RawBuffer&& other) noexcept {
         if (this == &other) return *this;
-
-        // Giải phóng tài nguyên hiện tại
+        // Free old data and move new data
         delete[] data_;
-
-        // "Ăn cắp" từ other
-        data_ = other.data_;
         size_ = other.size_;
+        data_ = other.data_;
+        // Reset other
         other.data_ = nullptr;
         other.size_ = 0;
-        std::cout << "[RawBuffer] MOVE assigned size=" << size_ << "\n";
+        std::cout << "MOVE assigned size=" << size_ << "\n";
+
         return *this;
     }
 
     void print() const {
         if (!data_) { std::cout << "[RawBuffer] (empty/moved-from)\n"; return; }
-        std::cout << "[RawBuffer] size=" << size_
+        std::cout << "[Print] size=" << size_
                   << " data[0]=" << static_cast<int>(data_[0]) << "\n";
     }
 };
+
+void func(RawBuffer raw)
+{
+    std::cout << "func with size: " << raw.size_ << "\n";
+}
 
 void demo_rule_of_five() {
     std::cout << "\n=== Rule of Five Demo ===\n";
 
     RawBuffer a(64, 'A');  // Constructor
     a.print();
+    func(a);
+    // func(std::move(a));
 
     RawBuffer b(a);        // Copy constructor → deep copy
     b.print();
