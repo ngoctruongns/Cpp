@@ -42,7 +42,7 @@ public:
 class LidarSensor : public Sensor {
     double range_;
 public:
-    LidarSensor(const std::string& n, int id, double range)
+    LidarSensor(const std::string& n, double range, int id)
         : Sensor(n, id), range_(range) {}
     double read() const override { return range_; }
     std::string type_name() const override { return "Lidar"; }
@@ -51,7 +51,7 @@ public:
 class IMUSensor : public Sensor {
     double accel_;
 public:
-    IMUSensor(const std::string& n, int id, double accel)
+    IMUSensor(const std::string& n, double accel, int id)
         : Sensor(n, id), accel_(accel) {}
     double read() const override { return accel_; }
     std::string type_name() const override { return "IMU"; }
@@ -60,7 +60,7 @@ public:
 class CameraSensor : public Sensor {
     int resolution_;
 public:
-    CameraSensor(const std::string& n, int id, int res)
+    CameraSensor(const std::string& n, int res, int id)
         : Sensor(n, id), resolution_(res) {}
     double read() const override { return static_cast<double>(resolution_); }
     std::string type_name() const override { return "Camera"; }
@@ -76,9 +76,9 @@ void demo_slicing_problem() {
 
     // CORRECT: vector<unique_ptr<Sensor>> → polymorphism đúng
     std::vector<std::unique_ptr<Sensor>> sensors;
-    sensors.push_back(std::make_unique<LidarSensor>("lidar_front", 1, 3.14));
-    sensors.push_back(std::make_unique<IMUSensor>("imu_main", 2, 9.81));
-    sensors.push_back(std::make_unique<CameraSensor>("cam_rgb", 3, 1920));
+    sensors.push_back(std::make_unique<LidarSensor>("lidar_front", 3.14, 1));
+    sensors.push_back(std::make_unique<IMUSensor>("imu_main", 9.81, 2));
+    sensors.push_back(std::make_unique<CameraSensor>("cam_rgb", 1920, 3));
 
     std::cout << "Reading all sensors:\n";
     for (const auto& s : sensors) {
@@ -94,9 +94,9 @@ class SensorRegistry {
 public:
     template<typename T, typename... Args>
     std::shared_ptr<T> create_sensor(Args&&... args) {
-        auto s = std::make_shared<T>(std::forward<Args>(args)..., next_id_++);
-        sensors_[s->id] = s;  // store as shared_ptr<Sensor> (covariant)
-        return s;
+        auto sensor = std::make_shared<T>(std::forward<Args>(args)..., next_id_);
+        sensors_[next_id_++] = sensor;
+        return sensor;
     }
 
     std::shared_ptr<Sensor> get(int id) {
@@ -134,9 +134,9 @@ void demo_move_between_containers() {
     std::cout << "\n=== Move unique_ptr between containers ===\n";
 
     std::vector<std::unique_ptr<Sensor>> pool;
-    pool.push_back(std::make_unique<LidarSensor>("l1", 1, 1.0));
-    pool.push_back(std::make_unique<LidarSensor>("l2", 2, 2.0));
-    pool.push_back(std::make_unique<IMUSensor>("i1", 3, 9.81));
+    pool.push_back(std::make_unique<LidarSensor>("l1", 1.0, 1));
+    pool.push_back(std::make_unique<LidarSensor>("l2", 2.0, 2));
+    pool.push_back(std::make_unique<IMUSensor>("i1", 9.81, 3));
 
     // Tách sensors theo loại
     std::vector<std::unique_ptr<Sensor>> lidars, imus;
@@ -164,7 +164,7 @@ void demo_unique_to_shared() {
     std::cout << "\n=== unique_ptr → shared_ptr conversion ===\n";
 
     // unique_ptr → shared_ptr: OK (implicit conversion)
-    std::unique_ptr<LidarSensor> up = std::make_unique<LidarSensor>("lidar", 1, 3.5);
+    std::unique_ptr<LidarSensor> up = std::make_unique<LidarSensor>("lidar", 3.5, 1);
     std::shared_ptr<Sensor> sp = std::move(up);  // up becomes null
     std::cout << "up is null: " << (up == nullptr) << "\n";
     std::cout << "sp use_count: " << sp.use_count() << "\n";
